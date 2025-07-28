@@ -1,0 +1,20 @@
+torchrun \
+    --standalone \
+    --nnodes=1 \
+    --nproc-per-node=5 \
+    -m tuned_lens train \
+    sarvamai/sarvam-1 \
+    mihir/final_combined_data.jsonl \
+    --per-gpu-batch-size 1 \
+    -o mihir/final_sarvam_lens/sarvamai/sarvam-1 \
+    --fsdp \
+    >> final_sarvam_output.log 2>&1
+
+
+python tunedlens/tuned_lens_main.py > tunedlens/logs/tuned_lens_main.log 2>&1
+
+python tunedlens/tuned_lens_hi.py > tunedlens/logs/tuned_lens_hi.log 2>&1
+
+python tunedlens/tuned_lens_mr.py > tunedlens/logs/tuned_lens_mr.log 2>&1
+
+python tunedlens/tuned_lens_bn.py > tunedlens/logs/tuned_lens_bn.log 2>&1
